@@ -19,14 +19,17 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // IN ORDER TO USE THE GOOGLEAUTH, WE NEED TO INITIALIZE A PROVIDER
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
 
@@ -47,10 +50,10 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         createdAt,
       });
     } catch (error) {
-        console.log('error creating the user', error.message);
+      console.log("error creating the user", error.message);
     }
   }
 
-    //   IF THE USER EXISTS
-    return userDocRef;
+  //   IF THE USER EXISTS
+  return userDocRef;
 };
